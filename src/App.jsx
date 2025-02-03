@@ -82,14 +82,14 @@ function App() {
       const { done, value } = await reader.read();
       if (done) break;
       const chunk = decoder.decode(value, { stream: true });
-
+      // console.log(chunk)
       chunk
         .trim()
         .split("\n")
         .forEach((el) => {
           if (el) {
             const data = JSON.parse(el);
-            console.log(data);
+            // console.log(data);
             setResp((prv) => prv + data.response);
           }
         });
@@ -116,11 +116,11 @@ function App() {
     <div className="max-w-screen-xl mx-auto flex flex-col gap-3 max-xl:mx-4 h-screen">
       <div className="text-3xl border bg-blue-300 text-slate-600 p-2 flex justify-between">
         <span>Ollama Lab , <span className="text-pink-600"> Active model = {selModel || 'none' }</span></span>
-        <select defaultValue="" className="select me-[12%]"
+        <select className="select me-[12%]"
           value={selModel}
           onChange={e=>setSelModel(e.target.value)}
         >
-          <option disabled={true} value=''>Select LLM Model</option>
+          <option disabled={true} value='' >Select LLM Model</option>
           { allModels.map(el => (
             <option key={el}>{el}</option>
           ))}
@@ -139,6 +139,7 @@ function App() {
           className="file-input"
           accept="image/*"
           onChange={hdlFileChange}
+          disabled={loading}
         />
         <button className="btn btn-primary" disabled={loading}>
           Go
@@ -147,8 +148,8 @@ function App() {
           clear
         </button>
       </form>
-      <div className=" p-3 border border-amber-200">
-        {selFile && <img src={imgSrc} className="h-100 block mx-auto" />}
+      <div className=" p-3 border border-amber-200 max-h-[250px]">
+        {selFile && <img src={imgSrc} className="h-full block mx-auto" />}
       </div>
       <div
         ref={divRef}
