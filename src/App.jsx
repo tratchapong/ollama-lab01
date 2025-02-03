@@ -1,8 +1,7 @@
-import axios from "axios";
 import ReactMarkdown from "react-markdown";
 import { useEffect, useRef, useState } from "react";
 
-const allModels = ["deepseek-r1:1.5b", "deepseek-r1:7b", "llava:7b", "wizardlm2:latest"];
+const allModels = ["deepseek-r1:1.5b", "deepseek-r1:7b","deepseek-r1:8b", "llava:7b", "wizardlm2:latest"];
 
 const toBase64 = (file) => {
   return new Promise((rs, rj) => {
@@ -15,7 +14,7 @@ const toBase64 = (file) => {
 
 function App() {
   const [prompt, setPrompt] = useState("");
-  const [selModel, setSelModel] = useState('')
+  const [selModel, setSelModel] = useState('deepseek-r1:7b')
   const [selFile, setSelFile] = useState(null);
   const [resp, setResp] = useState("");
   const [loading, setLoading] = useState(false);
@@ -58,10 +57,8 @@ function App() {
     }
   }, [selFile]);
 
-
-
   const sendPrompt = async () => {
-    // if (!prompt.trim()) return;
+    if (!prompt.trim() && selModel !== 'llava:7b') return;
     setResp("");
     setLoading(true);
     const Img64 = selFile ? await toBase64(selFile) : "";
